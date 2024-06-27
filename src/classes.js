@@ -1,5 +1,5 @@
 export class Ship {
-    constructor(name, length, hits = 0) {
+    constructor(name, length, hits = []) {
         this.name = name;
         this.length = length;
         this.hits = hits;
@@ -59,20 +59,25 @@ export class Gameboard {
             this.misses.some(pos => pos[0] == x && pos[1] == y)
         ) throw new Error("This tile has already been clicked. Try again.");
 
-        const ship = this.board[x + y * 9]; // need to add validation to ensure the tile hasn't already been attacked.
+        const ship = this.board[x + y * 10];
 
-        if(ship) {
+        if(typeof ship == "object") {
             ship.hit();
             this.hits.push([x, y]);
         } else {
             this.misses.push([x, y]);
         }
 
+        // console.log("Hits:")
+        // console.log(this.hits)
+        // console.log("Misses:")
+        // console.log(this.misses)
+
         return ship;
     }
 
     allSunk() {
-        return this.hits >= 17; // 3 should be changed to 17.
+        return this.hits.length >= 17; // 3 should be changed to 17.
     }
 }
 
@@ -117,7 +122,7 @@ export class Player {
                     this.addShip(lengths[index], x, y, dir);
                     index++;
                 } catch (error) {
-                    console.log(error);
+                    // console.log(error);
                 }
             }
         }

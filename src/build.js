@@ -1,13 +1,11 @@
-import { Gameboard, Player } from "./classes.js";
-
-export function createGrid(container, fill) {
+export function createGrid(container, fill, color) {
     while (container.firstChild) {
         container.removeChild(container.lastChild);
     }
 
     for(let i = 0; i <= 99; i++) {
         const tile = document.createElement("div");
-        if(fill[i] != 0) {
+        if(fill[i] != 0 && color == true) {
             switch(fill[i].name) {
                 case "Carrier":
                     tile.style.background = "#ff8888";
@@ -27,6 +25,7 @@ export function createGrid(container, fill) {
             }
         }
         tile.classList.add("tile");
+        tile.id = `n${i}`;
         container.appendChild(tile);
     }
 }
