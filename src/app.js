@@ -12,3 +12,10 @@ console.log("hehe")
 
 createGrid(playerContainer, player.gameboard.board);
 // createGrid(computerContainer);
+
+const randomize = document.querySelector("#randomize")
+randomize.addEventListener("click", () => {
+    player.restart()
+    player.randomFleet()
+    createGrid(playerContainer, player.gameboard.board)
+})

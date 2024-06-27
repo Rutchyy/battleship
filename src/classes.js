@@ -31,11 +31,18 @@ export class Gameboard {
         // Finds the tiles that the ship will take up the space of, and ensures no overlapping.
         const tiles = [];
         for(let i = 0; i < ship.length; i++) {
-            const column = dir == "v" ? x + i : x;
-            const row = dir == "h" ? y + i : i;
-            if(this.board[row + column * 9])
+            let column;
+            let row;
+            if(dir == "v") {
+                column = x;
+                row = (y + i) * 10;
+            } else {
+                column = x + i;
+                row = y * 10;
+            }
+            if(this.board[row + column])
                 throw new Error("The ship overlaps another. Please try again.");
-            tiles.push(row + column * 9);
+            tiles.push(row + column);
         }
 
         // Finally, appending the ship to the gameboard.
@@ -91,6 +98,7 @@ export class Player {
                 ship = new Ship("Destroyer", 2);
                 break;
         }
+
         this.gameboard.add(ship, x, y, dir);
     }
 
@@ -109,7 +117,7 @@ export class Player {
                     this.addShip(lengths[index], x, y, dir);
                     index++;
                 } catch (error) {
-                    // error
+                    console.log(error);
                 }
             }
         }
