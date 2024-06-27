@@ -6,10 +6,24 @@ export function createGrid(container, fill) {
     for(let i = 0; i <= 99; i++) {
         const tile = document.createElement("div");
         if(fill[i] != 0) {
-            console.log(fill[i])
-            tile.setAttribute("style", "background: red;")
+            switch(fill[i].name) {
+                case "Carrier":
+                    tile.style.background = "red";
+                    break;
+                case "Battleship":
+                    tile.style.background = "blue";
+                    break;
+                case "Cruiser":
+                    tile.style.background = "green";
+                    break;
+                case "Submarine":
+                    tile.style.background = "orange";
+                    break;
+                case "Destroyer":
+                    tile.style.background = "purple";
+                    break;
+            }
         }
-        tile.textContent = i;
         tile.classList.add("tile");
         container.appendChild(tile);
     }

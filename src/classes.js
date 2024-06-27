@@ -24,15 +24,16 @@ export class Gameboard {
 
     add(ship, x, y, dir) {
         // Throws error if the ship is out of bounds.
-        if((dir == "h" && x + ship.length > 10) || (dir == "v" && y + ship.length > 10))
+        if((dir == "h" && (x + ship.length > 9)) || (dir == "v" && (y + ship.length > 9)))
             throw new Error("The ship was placed out of bounds. Please try again.");
+            // return;
 
         // Finds the tiles that the ship will take up the space of, and ensures no overlapping.
         const tiles = [];
         for(let i = 0; i < ship.length; i++) {
             const column = dir == "v" ? x + i : x;
             const row = dir == "h" ? y + i : i;
-            if(this.board[row + column * 10])
+            if(this.board[row + column * 9])
                 throw new Error("The ship overlaps another. Please try again.");
             tiles.push(row + column * 9);
         }
@@ -64,7 +65,7 @@ export class Gameboard {
     }
 
     allSunk() {
-        return this.hits >= 3; // 3 should be changed to 17.
+        return this.hits >= 17; // 3 should be changed to 17.
     }
 }
 
@@ -78,19 +79,17 @@ export class Player {
         let ship;
         switch (length) {
             case 5:
-                ship = new Ship("Aircraft Carrier", 5);
-                break
+                ship = new Ship("Carrier", 5);
+                break;
             case 4:
                 ship = new Ship("Battleship", 4);
-                break
+                break;
             case 3:
-                ship = new Ship("Destroyer", 3);
-                break
+                ship = new Ship("Cruiser", 3);
+                break;
             case 2:
-                ship = new Ship("Submarine", 3);
-                break
-            case 1:
-                return new Ship("Cruiser", 2);
+                ship = new Ship("Destroyer", 2);
+                break;
         }
         this.gameboard.add(ship, x, y, dir);
     }
@@ -105,11 +104,13 @@ export class Player {
             const y = Math.floor(Math.random() * 10);
             const dir = Math.floor(Math.random() * 2) == 1 ? "h" : "v";
 
-            try {
-                this.addShip(lengths[index], x, y, dir);
-                index++;
-            } catch (error) {
-                // error
+            if((dir == "h" && (lengths[index] + x <= 10)) || (dir =="v" && (lengths[index] + y <= 10))) {
+                try {
+                    this.addShip(lengths[index], x, y, dir);
+                    index++;
+                } catch (error) {
+                    // error
+                }
             }
         }
     }
