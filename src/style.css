@@ -1,0 +1,59 @@
+body {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    color: white;
+    background: linear-gradient(rgba(0, 0, 0), rgba(0, 0, 0, 0.4)), url("./water.jpg");
+    background-size: cover;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 64px;
+}
+
+h1, h3 {
+    text-align: center;
+}
+
+.board {
+    width: 450px;   
+    height: 450px;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+}
+
+.tile, .board, main, h2, button {
+    border: 0.3px solid white;
+    transition: background-color 0.3s;
+}
+
+.tile, button {
+    background: none;
+    cursor: pointer;
+    color: white;
+}
+
+.tile:hover, button:hover {
+    background-color: #dedede42;
+}
+
+main, h2 {
+    padding: 16px;
+    padding-bottom: 32px;
+    margin: 8px 32px;
+}
+
+.right {
+    display: none;
+}
+
+button {
+    height: 45px;
+    width: 450px;
+    margin-top: 8px;
+}
