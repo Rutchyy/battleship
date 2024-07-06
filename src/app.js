@@ -17,7 +17,7 @@ function newMatch() {
     computer.randomFleet();
 
     createGrid(playerContainer, player.gameboard.board, true);
-    createGrid(computerContainer, computer.gameboard.board, true);
+    createGrid(computerContainer, computer.gameboard.board, false);
 }
 
 newMatch()
@@ -40,32 +40,34 @@ start.addEventListener("click", () => {
 const playerGrid = document.querySelector("#player")
 const computerGrid = document.querySelector("#computer")
 
-computerGrid.addEventListener("mouseover", (event) => {
+computerGrid.addEventListener("click", (event) => {
     let target = event.target
-    const index = Array.prototype.indexOf.call(computerGrid.children, target)
-    const attacked = computer.gameboard.attack(index % 10, Math.floor(index / 10))
-    if(computer.gameboard.allSunk()) {
-        document.querySelector("#win").style.display = "block";
-        document.querySelector("footer h2").textContent = "You win"
-    }
-    if(attacked == 0) {
-        target.textContent = "•";
-    } else {
-        target.textContent = "×";
-    }
+    if(!event.target.classList.contains("board")) {
+        const index = Array.prototype.indexOf.call(computerGrid.children, target)
+        const attacked = computer.gameboard.attack(index % 10, Math.floor(index / 10))
+        if(computer.gameboard.allSunk()) {
+            document.querySelector("#win").style.display = "block";
+            document.querySelector("footer h2").textContent = "You win"
+        }
+        if(attacked == 0) {
+            target.textContent = "•";
+        } else {
+            target.textContent = "×";
+        }
 
-    const move = botMove(player.gameboard.hits, player.gameboard.misses)
-    player.gameboard.attack(move)
-    if(player.gameboard.allSunk()) {
-        document.querySelector("#win").style.display = "block";
-        document.querySelector("footer h2").textContent = "You loose"
-    }
-    let calc = move[0] + move[1] * 10
-    target = document.querySelector(`#n${calc}`)
-    if(player.gameboard.board[calc] == 0) {
-        target.textContent = "•";
-    } else {
-        target.textContent = "×";
+        const move = botMove(player.gameboard.hits, player.gameboard.misses, player.gameboard)
+        player.gameboard.attack(move[0], move[1])
+        if(player.gameboard.allSunk()) {
+            document.querySelector("#win").style.display = "block";
+            document.querySelector("footer h2").textContent = "You loose"
+        }
+        let calc = move[0] + move[1] * 10
+        target = document.querySelector(`#n${calc}`)
+        if(player.gameboard.board[calc] == 0) {
+            target.textContent = "•";
+        } else {
+            target.textContent = "×";
+        }
     }
 })
 

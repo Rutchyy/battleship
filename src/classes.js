@@ -62,7 +62,7 @@ export class Gameboard {
         const ship = this.board[x + y * 10];
 
         if(typeof ship == "object") {
-            ship.hit();
+            this.board[x + y * 10].hit();
             this.hits.push([x, y]);
         } else {
             this.misses.push([x, y]);
